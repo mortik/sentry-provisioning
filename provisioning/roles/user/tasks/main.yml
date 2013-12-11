@@ -1,0 +1,15 @@
+- name: add application user
+  action: user name={{ user }} state=present home=/home/{{ user }} shell=/bin/bash
+
+- name: chown application user directory
+  file: path=/home/{{ user }} owner={{ user }} state=directory
+
+- name: copy authorized_keys for application user
+  authorized_key: user={{ user }}
+                  key="{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+                  path=/home/{{ user }}/.ssh/authorized_keys
+                  state=present
+                  manage_dir=no
+
+- name: change ownership of ssh directory
+  file: path=/home/{{ user }}/.ssh owner={{ user }} group={{ user }}

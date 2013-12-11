@@ -1,0 +1,16 @@
+---
+- name: install basic packages
+  action: apt pkg={{ item }} state=installed update-cache=yes
+  with_items:
+    - python-software-properties
+    - python
+    - g++
+    - make
+    - vim
+    - htop
+
+- name: install ansible dependencies
+  action: apt pkg={{ item }} state=installed update-cache=yes
+  with_items:
+    - libpq-dev
+    - python-psycopg2

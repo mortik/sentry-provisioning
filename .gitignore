@@ -1,0 +1,4 @@
+.vagrant
+/provisioning/host_vars/*
+/provisioning/live
+/provisioning/vagrant

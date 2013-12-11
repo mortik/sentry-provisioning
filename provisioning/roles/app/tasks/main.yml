@@ -1,0 +1,35 @@
+---
+- name: install application server packages
+  action: apt pkg={{ item }} state=installed update-cache=yes
+  with_items:
+    - supervisor
+
+- name: install app dependencies
+  action: apt pkg={{ item }} state=installed update-cache=yes
+  with_items:
+    - python-setuptools
+    - python-dev
+    - python-pip
+
+- name: copy supervisorctl files
+  template: src=supervisor.js dest="/etc/supervisor/conf.d/{{ app }}.conf" owner=root group=root mode=0600
+
+- name: update supervisorctl
+  shell: supervisorctl update
+
+- name: allow user to use supervisorctl
+  template: src=sudoers dest="/etc/sudoers.d/{{ app }}" owner=root group=root mode=0440
+
+- name: create deployment directories
+  file: path="/home/{{ user }}/{{ item }}" owner={{ user }} group={{ user }} mode=0760 state=directory recurse=yes
+  with_items:
+    - .sentry
+
+- name: copy config files
+  template: src=sentry.js dest="/home/{{ user }}/.sentry/sentry.conf.py" owner={{ user }} group={{ user }} mode=0600
+
+- name: install virtualenv
+  pip: name=virtualenv
+
+- name: install sentry
+  easy_install: name=sentry virtualenv=/home/{{ user }}/env
