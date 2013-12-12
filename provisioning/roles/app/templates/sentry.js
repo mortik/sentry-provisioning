@@ -102,7 +102,7 @@ SENTRY_WEB_OPTIONS = {
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 EMAIL_HOST = 'smtp.mandrillapp.com'
-EMAIL_HOST_PASSWORD = ''
+EMAIL_HOST_PASSWORD = '{{ mandrill_key }}'
 EMAIL_HOST_USER = 'mklitzke@mortik.de'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
@@ -117,6 +117,8 @@ SERVER_EMAIL = '{{ send_email }}'
 # If this file ever becomes compromised, it's important to regenerate your SECRET_KEY
 # Changing this value will result in all current sessions being invalidated
 SECRET_KEY = '{{ secret }}'
+
+SOCIAL_AUTH_CREATE_USERS = False
 
 # http://twitter.com/apps/new
 # It's important that input a callback URL, even if its useless. We have no idea why, consult Twitter.
@@ -134,6 +136,7 @@ GOOGLE_OAUTH2_CLIENT_SECRET = ''
 # https://github.com/settings/applications/new
 GITHUB_APP_ID = '{{ github_id }}'
 GITHUB_API_SECRET = '{{ github_secret }}'
+GITHUB_EXTENDED_PERMISSIONS = ['repo']
 
 # https://trello.com/1/appKey/generate
 TRELLO_API_KEY = ''
@@ -142,3 +145,7 @@ TRELLO_API_SECRET = ''
 # https://confluence.atlassian.com/display/BITBUCKET/OAuth+Consumers
 BITBUCKET_CONSUMER_KEY = ''
 BITBUCKET_CONSUMER_SECRET = ''
+
+INSTALLED_APPS = INSTALLED_APPS + (
+    'django_bcrypt',
+)
