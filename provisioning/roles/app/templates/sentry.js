@@ -118,6 +118,7 @@ SERVER_EMAIL = '{{ send_email }}'
 # Changing this value will result in all current sessions being invalidated
 SECRET_KEY = '{{ secret }}'
 
+SENTRY_ALLOW_REGISTRATION = False
 SOCIAL_AUTH_CREATE_USERS = False
 
 # http://twitter.com/apps/new
