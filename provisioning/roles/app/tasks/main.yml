@@ -32,4 +32,4 @@
   pip: name=virtualenv
 
 - name: install sentry
-  easy_install: name=sentry virtualenv=/home/{{ user }}/env
+  easy_install: name=sentry[postgres] virtualenv=/home/{{ user }}/env
