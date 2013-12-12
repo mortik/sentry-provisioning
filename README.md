@@ -1,10 +1,30 @@
-# Reckoning
+# Sentry Provisioning
 
-## Provisioning on VM
-ansible-playbook provisioning/provision.yml -i provisioning/local -u root
+## Setup
 
-## Provisioning on Stage
-ansible-playbook provisioning/provision.yml -i provisioning/stage -u root
+```
+bundle install
+``` 
 
-## Provisioning on Live
+### Provisioning on Vagrant VM
+```
+ansible-playbook provisioning/provision.yml -i provisioning/vagrant -u root
+```
+
+or via thor task
+
+```
+bundle exec thor provision:start
+``` 
+
+### Provisioning on Live
+```
 ansible-playbook provisioning/provision.yml -i provisioning/live -u root
+```
+
+or via thor task
+
+
+```
+bundle exec thor provision:start live
+``` 
