@@ -37,11 +37,11 @@
 - name: install github-sentry
   pip: name=sentry-github virtualenv=/home/{{ user }}/env
 
-- name: install campfire-sentry
-  pip: name=sentry_campfire virtualenv=/home/{{ user }}/env
+# - name: install campfire-sentry
+#   pip: name=sentry_campfire virtualenv=/home/{{ user }}/env
 
-- name: install campfire dependencies
-  pip: name=camplight virtualenv=/home/{{ user }}/env
+# - name: install campfire dependencies
+#   pip: name=camplight virtualenv=/home/{{ user }}/env
 
 - name: install django-bcrypt
   pip: name=git+https://github.com/dwaiter/django-bcrypt#egg=django-bcrypt virtualenv=/home/{{ user }}/env
