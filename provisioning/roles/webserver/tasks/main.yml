@@ -29,8 +29,21 @@
   notify:
     - restart nginx
 
+- name: create ssl dir
+  file: dest=/etc/nginx/ssl owner=root group=root mode=0600 state=directory
+  when: "'{{ protocol }}' == 'https'"
+
+- name: copy ssl files
+  copy: src={{ item }} dest=/etc/nginx/ssl/{{ app }}{{ item[-4:] }} owner=root group=root mode=0600
+  when: "'{{ protocol }}' == 'https'"
+  with_items:
+    - ssl.crt
+    - ssl.key
+  notify:
+    - restart nginx
+
 - name: copy site configuration
-  template: src=vhost.js dest=/etc/nginx/sites-available/{{ app }} owner=root group=root mode=0600
+  template: src={{ protocol }}_vhost.js dest=/etc/nginx/sites-available/{{ app }} owner=root group=root mode=0600
 
 - name: symlink site configuration
   file: src=/etc/nginx/sites-available/{{ app }} dest=/etc/nginx/sites-enabled/{{ app }} owner=root group=root mode=0644 state=link

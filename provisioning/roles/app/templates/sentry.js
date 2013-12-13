@@ -101,14 +101,14 @@ SENTRY_WEB_OPTIONS = {
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
-EMAIL_HOST = 'smtp.mandrillapp.com'
-EMAIL_HOST_PASSWORD = '{{ mandrill_key }}'
-EMAIL_HOST_USER = 'mklitzke@mortik.de'
-EMAIL_PORT = 587
+EMAIL_HOST = '{{ smtp_host }}'
+EMAIL_HOST_PASSWORD = '{{ smtp_password }}'
+EMAIL_HOST_USER = '{{ smtp_user }}'
+EMAIL_PORT = {{ smtp_port }}
 EMAIL_USE_TLS = True
 
 # The email address to send on behalf of
-SERVER_EMAIL = '{{ send_email }}'
+SERVER_EMAIL = '{{ mail_default_from }}'
 
 ###########
 ## etc. ##
