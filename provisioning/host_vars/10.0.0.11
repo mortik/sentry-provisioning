@@ -15,7 +15,6 @@ smtp_password:
 smtp_user:
 smtp_port:
 mail_default_from:
-mandrill_key:
 superuser: "max"
 superuser_email: "max@mustermann.de"
 superuser_password: "nopass"
