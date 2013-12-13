@@ -1,6 +1,6 @@
 ---
 app: sentry
-domain: sentry.io
+domain: sentry.dev
 port: 9000
 user: sentry
 db: sentry
@@ -8,7 +8,10 @@ db_user: sentry
 db_password:
 protocol:
 secret:
-send_email:
 github_id:
 github_secret:
-mandrill_key:
+smtp_host:
+smtp_password:
+smtp_user:
+smtp_port:
+mail_default_from:
