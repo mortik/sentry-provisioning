@@ -8,7 +8,7 @@ create a host file in the provisioning folder like ```provisioning/example```
 
 ```
 bundle install
-``` 
+```
 
 ### Provisioning on Vagrant VM
 ```
@@ -19,7 +19,7 @@ or via thor task
 
 ```
 bundle exec thor provision:start
-``` 
+```
 
 ### Provisioning on Live
 ```
@@ -31,12 +31,11 @@ or via thor task
 
 ```
 bundle exec thor provision:start live
-``` 
+```
 
 
 After ansible is finished you still need to login to sentry@*your-host* and run:
 
 ```
-sentry --config=/home/sentry/.sentry/sentry.conf.py upgrade
 sentry --config=/home/sentry/.sentry/sentry.conf.py createsuperuser
 ```
