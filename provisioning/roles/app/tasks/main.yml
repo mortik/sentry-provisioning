@@ -36,6 +36,7 @@
 
 - name: install github-sentry
   pip: name=sentry-github virtualenv=/home/{{ user }}/env
+  when: "'{{ github_id }}' != '' && '{{ github_secret }}' != ''"
 
 # - name: install campfire-sentry
 #   pip: name=sentry_campfire virtualenv=/home/{{ user }}/env
