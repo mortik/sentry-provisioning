@@ -8,6 +8,7 @@
     - make
     - vim
     - htop
+    - git-core
 
 - name: install ansible dependencies
   action: apt pkg={{ item }} state=installed update-cache=yes
