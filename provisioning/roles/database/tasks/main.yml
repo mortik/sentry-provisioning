@@ -1,6 +1,6 @@
 ---
 - name: install postgres packages
-  action: apt pkg={{ item }} state=installed update-cache=yes
+  apt: pkg={{ item }} state=installed update-cache=yes
   with_items:
     - postgresql
     - postgresql-contrib

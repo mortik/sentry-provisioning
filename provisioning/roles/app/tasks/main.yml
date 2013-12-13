@@ -1,11 +1,11 @@
 ---
 - name: install application server packages
-  action: apt pkg={{ item }} state=installed update-cache=yes
+  apt: pkg={{ item }} state=installed update-cache=yes
   with_items:
     - supervisor
 
 - name: install app dependencies
-  action: apt pkg={{ item }} state=installed update-cache=yes
+  apt:  pkg={{ item }} state=installed update-cache=yes
   with_items:
     - python-setuptools
     - python-dev
