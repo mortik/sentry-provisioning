@@ -12,3 +12,6 @@ send_email:
 github_id:
 github_secret:
 mandrill_key:
+superuser: "max"
+superuser_email: "max@mustermann.de"
+superuser_password: "nopass"

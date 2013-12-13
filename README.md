@@ -2,9 +2,9 @@
 
 ## Setup
 
-Update or create a Host vars file under ```provisioning/host_vars``` look in the example.io file for a list of needed vars.
+Update or create a Host vars file under ```provisioning/host_vars``` look in the 10.0.0.11 file for a list of needed vars.
 
-create a host file in the provisioning folder like ```provisioning/example```
+Also make sure to change the superuser credentials!
 
 ```
 bundle install
@@ -31,11 +31,4 @@ or via thor task
 
 ```
 bundle exec thor provision:start live
-```
-
-
-After ansible is finished you still need to login to sentry@*your-host* and run:
-
-```
-sentry --config=/home/sentry/.sentry/sentry.conf.py createsuperuser
 ```

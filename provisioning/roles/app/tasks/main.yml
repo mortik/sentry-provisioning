@@ -34,6 +34,9 @@
 - name: install sentry
   easy_install: name=sentry[postgres] virtualenv=/home/{{ user }}/env
 
+- name: correct folder permissions
+  file: path=/home/{{ user }}/env owner={{ user }} group={{ user }} recurse=yes
+
 - name: install github-sentry
   pip: name=sentry-github virtualenv=/home/{{ user }}/env
   when: "{{ github_id }} != None and {{ github_secret }} != None"
@@ -51,4 +54,13 @@
   pip: name=sentry-pivotal virtualenv=/home/{{ user }}/env
 
 - name: migrate database
-  shell: su {{ user }} -c "source /home/{{ user }}/env/bin/activate && sentry --config=/home/{{ user }}/.sentry/sentry.conf.py upgrade"
+  shell: "su {{ user }} -c 'source /home/{{ user }}/env/bin/activate && sentry --config=/home/{{ user }}/.sentry/sentry.conf.py upgrade'"
+
+- name: copy superuser creation template
+  template: src=createsuperuser.js dest=/home/{{ user }}/temp.py owner={{ user }} group={{ user }}
+
+- name: create super user
+  shell: "su {{ user }} -c 'source /home/{{ user }}/env/bin/activate && python /home/{{ user }}/temp.py'"
+
+- name: remove superuser creation template
+  file: path=/home/{{ user }}/temp.py state=absent
