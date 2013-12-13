@@ -36,3 +36,6 @@
   file: src=/etc/nginx/sites-available/{{ app }} dest=/etc/nginx/sites-enabled/{{ app }} owner=root group=root mode=0644 state=link
   notify:
     - restart nginx
+
+- name: ensure nginx is running
+  service: name=nginx state=started
