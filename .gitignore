@@ -1,5 +1,3 @@
 .vagrant
-provisioning/host_vars/10.0.0.11
 provisioning/host_vars/sentry.mortik.de
 provisioning/live
-provisioning/vagrant

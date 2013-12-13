@@ -11,3 +11,4 @@ secret:
 send_email:
 github_id:
 github_secret:
+mandrill_key:

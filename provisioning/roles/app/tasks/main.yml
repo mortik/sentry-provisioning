@@ -36,6 +36,7 @@
 
 - name: install github-sentry
   pip: name=sentry-github virtualenv=/home/{{ user }}/env
+  when: "{{ github_id }} != None and {{ github_secret }} != None"
 
 # - name: install campfire-sentry
 #   pip: name=sentry_campfire virtualenv=/home/{{ user }}/env
@@ -48,3 +49,6 @@
 
 - name: install pivotal-sentry
   pip: name=sentry-pivotal virtualenv=/home/{{ user }}/env
+
+- name: migrate database
+  shell: su {{ user }} -c "source /home/{{ user }}/env/bin/activate && sentry --config=/home/{{ user }}/.sentry/sentry.conf.py upgrade"
