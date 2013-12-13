@@ -6,7 +6,7 @@ user: sentry
 db: sentry
 db_user: sentry
 db_password:
-protocol:
+protocol: http
 secret:
 github_id:
 github_secret:

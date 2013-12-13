@@ -1,40 +1,44 @@
 ---
 - name: install webserver packages
-  apt: pkg={{ item }} state=installed update-cache=yes
+  apt:
+    pkg: "{{ item }}"
+    state: installed
+    update-cache: yes
   with_items:
     - nginx-full
 
-- name: config file - gzip on
-  lineinfile: "dest=/etc/nginx/nginx.conf state=present regexp='^\\s*(gzip on;)' insertafter='^http {.*' line='\tgzip on;'"
-  notify:
-    - restart nginx
-
-- name: config file - gzip_http_version
-  lineinfile: "dest=/etc/nginx/nginx.conf state=present regexp='^\\s*(gzip_http_version 1.1;)' insertafter='^http {.*' line='\tgzip_http_version 1.1;'"
-  notify:
-    - restart nginx
-
-- name: config file - gzip_comp_level
-  lineinfile: "dest=/etc/nginx/nginx.conf state=present regexp='^\\s*(gzip_comp_level 2;)' insertafter='^http {.*' line='\tgzip_comp_level 2;'"
-  notify:
-    - restart nginx
-
-- name: config file - gzip_types ..
-  lineinfile: "dest=/etc/nginx/nginx.conf state=present regexp='^\\s*(gzip_types text/plain tex)' insertafter='^http {.*' line='\tgzip_types text/plain text/css application/x-javascript text/xml application/xml application/xml+rss text/javascript application/javascript application/json;'"
-  notify:
-    - restart nginx
-
-- name: config file - gzip_disable
-  lineinfile: "dest=/etc/nginx/nginx.conf state=present regexp='^\\s*(gzip_disable msie6;)' insertafter='^http {.*' line='\tgzip_disable msie6;'"
+- name: enable gzip
+  lineinfile:
+    dest: /etc/nginx/nginx.conf
+    state: present
+    regexp: "^.*({{ item[:20] }})"
+    insertafter: ^http {.*
+    line: "\t{{ item }}"
+  with_items:
+    - gzip on;
+    - gzip_http_version 1.1;
+    - gzip_comp_level 2;
+    - gzip_types text/plain text/css application/x-javascript text/xml application/xml application/xml+rss text/javascript application/javascript application/json;
+    - gzip_disable "msie6";
   notify:
     - restart nginx
 
 - name: create ssl dir
-  file: dest=/etc/nginx/ssl owner=root group=root mode=0600 state=directory
+  file:
+    dest: /etc/nginx/ssl
+    owner: root
+    group: root
+    mode: 0600
+    state: directory
   when: "'{{ protocol }}' == 'https'"
 
 - name: copy ssl files
-  copy: src={{ item }} dest=/etc/nginx/ssl/{{ app }}{{ item[-4:] }} owner=root group=root mode=0600
+  copy:
+    src: "{{ item }}"
+    dest: "/etc/nginx/ssl/{{ app }}{{ item[-4:] }}"
+    owner: root
+    group: root
+    mode: 0600
   when: "'{{ protocol }}' == 'https'"
   with_items:
     - ssl.crt
@@ -43,12 +47,25 @@
     - restart nginx
 
 - name: copy site configuration
-  template: src={{ protocol }}_vhost.js dest=/etc/nginx/sites-available/{{ app }} owner=root group=root mode=0600
+  template:
+    src: "{{ protocol }}_vhost.js"
+    dest: "/etc/nginx/sites-available/{{ app }}"
+    owner: root
+    group: root
+    mode: 0600
 
 - name: symlink site configuration
-  file: src=/etc/nginx/sites-available/{{ app }} dest=/etc/nginx/sites-enabled/{{ app }} owner=root group=root mode=0644 state=link
+  file:
+    src: "/etc/nginx/sites-available/{{ app }}"
+    dest: "/etc/nginx/sites-enabled/{{ app }}"
+    owner: root
+    group: root
+    mode: 0644
+    state: link
   notify:
     - restart nginx
 
 - name: ensure nginx is running
-  service: name=nginx state=started
+  service:
+    name: nginx
+    state: started

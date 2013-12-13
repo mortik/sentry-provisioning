@@ -1,6 +1,9 @@
 ---
 - name: install basic packages
-  apt: pkg={{ item }} state=installed update-cache=yes
+  apt:
+    pkg: "{{ item }}"
+    state: installed
+    update-cache: yes
   with_items:
     - python-software-properties
     - python
@@ -11,7 +14,10 @@
     - git-core
 
 - name: install ansible dependencies
-  apt: pkg={{ item }} state=installed update-cache=yes
+  apt:
+    pkg: "{{ item }}"
+    state: installed
+    update-cache: yes
   with_items:
     - libpq-dev
     - python-psycopg2

@@ -1,69 +1,98 @@
 ---
 - name: install application server packages
-  apt: pkg={{ item }} state=installed update-cache=yes
+  apt:
+    pkg: "{{ item }}"
+    state: installed
+    update-cache: yes
   with_items:
     - supervisor
 
 - name: install app dependencies
-  apt:  pkg={{ item }} state=installed update-cache=yes
+  apt:
+    pkg: "{{ item }}"
+    state: installed
+    update-cache: yes
   with_items:
     - python-setuptools
     - python-dev
     - python-pip
 
 - name: copy supervisorctl files
-  template: src=supervisor.js dest="/etc/supervisor/conf.d/{{ app }}.conf" owner=root group=root mode=0600
+  template:
+    src: supervisor.js
+    dest: "/etc/supervisor/conf.d/{{ app }}.conf"
+    owner: root
+    group: root
+    mode: 0600
 
 - name: update supervisorctl
   shell: supervisorctl update
 
 - name: allow user to use supervisorctl
-  template: src=sudoers dest="/etc/sudoers.d/{{ app }}" owner=root group=root mode=0440
+  template:
+    src: sudoers
+    dest: "/etc/sudoers.d/{{ app }}"
+    owner: root
+    group: root
+    mode: 0440
 
 - name: create deployment directories
-  file: path="/home/{{ user }}/{{ item }}" owner={{ user }} group={{ user }} mode=0760 state=directory recurse=yes
-  with_items:
-    - .sentry
+  file:
+    path: "/home/{{ user }}/.sentry"
+    owner: "{{ user }}"
+    group: "{{ user }}"
+    mode: 0760
+    state: directory
+    recurse: yes
 
 - name: copy config files
-  template: src=sentry.js dest="/home/{{ user }}/.sentry/sentry.conf.py" owner={{ user }} group={{ user }} mode=0600
+  template:
+    src: "sentry.js"
+    dest: "/home/{{ user }}/.sentry/sentry.conf.py"
+    owner: "{{ user }}"
+    group: "{{ user }}"
+    mode: 0600
 
 - name: install virtualenv
-  pip: name=virtualenv
+  pip:
+    name: virtualenv
 
 - name: install pexpect
-  pip: name=pexpect virtualenv=/home/{{ user }}/env
+  pip:
+    name: pexpect
+    virtualenv: "/home/{{ user }}/env"
 
-- name: install sentry
-  easy_install: name=sentry[postgres] virtualenv=/home/{{ user }}/env
+- name: install sentry and plugins
+  pip:
+    name: "{{ item }}"
+    virtualenv: "/home/{{ user }}/env"
+  with_items:
+    - "sentry[postgres]"
+    - "sentry-github"
+    - "git+https://github.com/dwaiter/django-bcrypt#egg=django-bcrypt"
+    - "sentry-pivotal"
 
 - name: correct folder permissions
-  file: path=/home/{{ user }}/env owner={{ user }} group={{ user }} recurse=yes
-
-- name: install github-sentry
-  pip: name=sentry-github virtualenv=/home/{{ user }}/env
-  when: "'{{ github_id }}' != 'None' and '{{ github_secret }}' != 'None'"
-
-# - name: install campfire-sentry
-#   pip: name=sentry_campfire virtualenv=/home/{{ user }}/env
-
-# - name: install campfire dependencies
-#   pip: name=camplight virtualenv=/home/{{ user }}/env
-
-- name: install django-bcrypt
-  pip: name=git+https://github.com/dwaiter/django-bcrypt#egg=django-bcrypt virtualenv=/home/{{ user }}/env
-
-- name: install pivotal-sentry
-  pip: name=sentry-pivotal virtualenv=/home/{{ user }}/env
+  file:
+    path: "/home/{{ user }}/env"
+    owner: "{{ user }}"
+    group: "{{ user }}"
+    recurse: yes
 
 - name: migrate database
   shell: "su {{ user }} -c 'source /home/{{ user }}/env/bin/activate && sentry --config=/home/{{ user }}/.sentry/sentry.conf.py upgrade'"
 
 - name: copy superuser creation template
-  template: src=createsuperuser.js dest=/home/{{ user }}/temp.py owner={{ user }} group={{ user }}
+  template:
+    src: "createsuperuser.js"
+    dest: "/home/{{ user }}/temp.py"
+    owner: "{{ user }}"
+    group: "{{ user }}"
 
 - name: create super user
   shell: "su {{ user }} -c 'source /home/{{ user }}/env/bin/activate && python /home/{{ user }}/temp.py'"
 
 - name: remove superuser creation template
-  file: path=/home/{{ user }}/temp.py state=absent
+  file:
+    path: "/home/{{ user }}/temp.py"
+    state: absent
