@@ -8,8 +8,6 @@ db_user: sentry
 db_password:
 protocol: http
 secret:
-github_id:
-github_secret:
 smtp_host:
 smtp_password:
 smtp_user:
@@ -18,3 +16,15 @@ mail_default_from:
 superuser: "max"
 superuser_email: "max@mustermann.de"
 superuser_password: "nopass"
+github_id:
+github_secret:
+twitter_key:
+twitter_secret:
+facebook_id:
+facebook_secret:
+google_id:
+google_secret:
+trello_key:
+trello_secret:
+bitbucket_key:
+bitbucket_secret:

@@ -123,16 +123,16 @@ SOCIAL_AUTH_CREATE_USERS = False
 
 # http://twitter.com/apps/new
 # It's important that input a callback URL, even if its useless. We have no idea why, consult Twitter.
-TWITTER_CONSUMER_KEY = ''
-TWITTER_CONSUMER_SECRET = ''
+TWITTER_CONSUMER_KEY = '{{ twitter_key }}'
+TWITTER_CONSUMER_SECRET = '{{ twitter_secret }}'
 
 # http://developers.facebook.com/setup/
-FACEBOOK_APP_ID = ''
-FACEBOOK_API_SECRET = ''
+FACEBOOK_APP_ID = '{{ facebook_id }}'
+FACEBOOK_API_SECRET = '{{ facebook_secret }}'
 
 # http://code.google.com/apis/accounts/docs/OAuth2.html#Registering
-GOOGLE_OAUTH2_CLIENT_ID = ''
-GOOGLE_OAUTH2_CLIENT_SECRET = ''
+GOOGLE_OAUTH2_CLIENT_ID = '{{ google_id }}'
+GOOGLE_OAUTH2_CLIENT_SECRET = '{{ google_secret }}'
 
 # https://github.com/settings/applications/new
 GITHUB_APP_ID = '{{ github_id }}'
@@ -140,12 +140,12 @@ GITHUB_API_SECRET = '{{ github_secret }}'
 GITHUB_EXTENDED_PERMISSIONS = ['repo']
 
 # https://trello.com/1/appKey/generate
-TRELLO_API_KEY = ''
-TRELLO_API_SECRET = ''
+TRELLO_API_KEY = '{{ trello_key }}'
+TRELLO_API_SECRET = '{{ trello_secret }}'
 
 # https://confluence.atlassian.com/display/BITBUCKET/OAuth+Consumers
-BITBUCKET_CONSUMER_KEY = ''
-BITBUCKET_CONSUMER_SECRET = ''
+BITBUCKET_CONSUMER_KEY = '{{ bitbucket_key }}'
+BITBUCKET_CONSUMER_SECRET = '{{ bitbucket_secret }}'
 
 INSTALLED_APPS = INSTALLED_APPS + (
     'django_bcrypt',
