@@ -49,3 +49,6 @@
 
 - name: install pivotal-sentry
   pip: name=sentry-pivotal virtualenv=/home/{{ user }}/env
+
+- name: migrate database
+  shell: su {{ user }} -c "source /home/{{ user }}/env/bin/activate && sentry --config=/home/{{ user }}/.sentry/sentry.conf.py upgrade"
