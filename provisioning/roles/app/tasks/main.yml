@@ -29,10 +29,10 @@
   template: src=sentry.js dest="/home/{{ user }}/.sentry/sentry.conf.py" owner={{ user }} group={{ user }} mode=0600
 
 - name: install virtualenv
-  pip: name="{{ item }}"
-  with_items:
-    - virtualenv
-    - pexpect
+  pip: name=virtualenv
+
+- name: install pexpect
+  pip: name=pexpect virtualenv=/home/{{ user }}/env
 
 - name: install sentry
   easy_install: name=sentry[postgres] virtualenv=/home/{{ user }}/env
@@ -42,7 +42,7 @@
 
 - name: install github-sentry
   pip: name=sentry-github virtualenv=/home/{{ user }}/env
-  when: "{{ github_id }} != None and {{ github_secret }} != None"
+  when: "'{{ github_id }}' != 'None' and '{{ github_secret }}' != 'None'"
 
 # - name: install campfire-sentry
 #   pip: name=sentry_campfire virtualenv=/home/{{ user }}/env
