@@ -1,5 +1,7 @@
 # Sentry Provisioning
 
+[![Gittip](http://img.shields.io/gittip/mortik.png)](https://www.gittip.com/mortik/)
+
 ## Setup
 
 Update or create a Host vars file under ```provisioning/host_vars``` look in the 10.0.0.11 file for a list of needed vars.
