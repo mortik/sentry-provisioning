@@ -1,4 +1,4 @@
-# reckoning setup
+# setup
 - hosts: all
   sudo: True
   roles:
