@@ -71,6 +71,8 @@
     - "sentry-github"
     - "git+https://github.com/dwaiter/django-bcrypt#egg=django-bcrypt"
     - "sentry-pivotal"
+  notify:
+    - restart supervisor
 
 - name: correct folder permissions
   file:
